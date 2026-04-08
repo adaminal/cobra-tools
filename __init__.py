@@ -60,7 +60,7 @@ if bpy_available:
         logging_setup("blender_plugin")
         logging.info(f"Running blender {fmt_version(bpy.app.version)}")
 
-        from .plugin import addon_updater_ops
+      
         from .plugin.modules_import.operators import *
         from .plugin.modules_export.operators import *
         from .plugin.utils.operators import *
@@ -81,46 +81,13 @@ if bpy_available:
             """Cobra preferences"""
             bl_idname = __package__
 
-            # Addon updater preferences.
-            auto_check_update: BoolProperty(
-                name="Auto-check for Update",
-                description="If enabled, auto-check for updates using an interval",
-                default=False)
-
-            updater_interval_months: IntProperty(
-                name='Months',
-                description="Number of months between checking for updates",
-                default=0,
-                min=0)
-
-            updater_interval_days: IntProperty(
-                name='Days',
-                description="Number of days between checking for updates",
-                default=1,
-                min=0,
-                max=31)
-
-            updater_interval_hours: IntProperty(
-                name='Hours',
-                description="Number of hours between checking for updates",
-                default=0,
-                min=0,
-                max=23)
-
-            updater_interval_minutes: IntProperty(
-                name='Minutes',
-                description="Number of minutes between checking for updates",
-                default=0,
-                min=0,
-                max=59)
-
             def draw(self, context):
                 # we are only suggesting to install bitarray for now
                 if not importlib.util.find_spec("bitarray"):
                     row = self.layout.row()
                     row.alert = True
                     row.operator("wm.install_dependencies", icon="ERROR")
-                addon_updater_ops.update_settings_ui(self, context)
+               
 
 
         class InstallDependencies(bpy.types.Operator):
